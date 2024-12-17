@@ -13,13 +13,14 @@
 
     <div class="container text-center mt-4">
         <div class="row justify-content-center">
+            <div class="temp-container"></div>
             <div class="col-10 rounded bg-white shadow p-5">
                 <div class="jokes-container m-4"></div>
                 <div>
                     <h6>Give it a score!</h6>
-                    <button type="button" class="m-4 btn text-white" style="background-color: rgb(13, 7, 92);">1</button>
-                    <button type="button" class="m-4 btn text-white" style="background-color: rgb(29, 32, 177);">2</button>
-                    <button type="button" class="m-4 btn text-white" style="background-color: rgb(46, 111, 231);">3</button>
+                    <button type="button" onclick="giveScore(1)" class="m-4 btn text-white" style="background-color: rgb(13, 7, 92);">1</button>
+                    <button type="button" onclick="giveScore(2)" class="m-4 btn text-white" style="background-color: rgb(29, 32, 177);">2</button>
+                    <button type="button" onclick="giveScore(3)" class="m-4 btn text-white" style="background-color: rgb(46, 111, 231);">3</button>
                 </div>
                 <button type="button" class="m-4 btn btn-primary w-25" onclick="getJoke()"
                     style="background-color:blueviolet; border-color: blueviolet;"> Another joke </button>
