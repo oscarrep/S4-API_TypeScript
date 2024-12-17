@@ -14,21 +14,21 @@ function getJoke(): void {
 }
 
 function printJoke(txt: { joke: string }): void {
-    let jokesContainer = document.querySelector('.jokes-container');
+    let jokesContainer = document.querySelector('.jokes-container'); // looks for jokes-container in html
 
     if (!jokesContainer) {
         console.error('jokesContainer is not found');
         return;
     }
-    let print = jokesContainer.querySelector('h5');
-    let jokeObj = { joke: '', score: 0, date: '' }
+    let print = jokesContainer.querySelector('h5'); // looks for h5 in html
+    let jokeObj = { joke: '', score: 0, date: '' }; // create new obj
 
-    if (print) {
-        print.textContent = txt.joke;
+    if (print) { // if h5 exists
+        print.textContent = txt.joke; 
         jokeObj.joke = txt.joke;
         reportAcudits.push(jokeObj);
     }
-    else {
+    else { // if h5 does not exist
         const h5 = document.createElement('h5');
         h5.textContent = txt.joke;
         jokeObj.joke = txt.joke;
@@ -40,9 +40,9 @@ function printJoke(txt: { joke: string }): void {
 function giveScore(toGive: number): void {
     if (!currentJoke) console.error('No joke available');
 
-    let jokeObj = reportAcudits.find(j => j.joke == currentJoke!.joke);
+    let jokeObj = reportAcudits.find(j => j.joke == currentJoke!.joke); // put the '!' so typescript doesnt give could be null
 
-    if (jokeObj) {
+    if (jokeObj) {// if obj exists add score and date
         jokeObj.score = toGive;
         jokeObj.date = new Date().toISOString();
     }
