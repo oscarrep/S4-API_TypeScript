@@ -1,46 +1,68 @@
 var options = { headers: { 'Accept': 'application/json' } };
 var reportAcudits = []; //joke:'', score:n, date:''
-var currentJoke = null;
+var dadJoke = null;
+var chuckJoke = null;
+var currentJokes = [];
 function getJoke() {
-    fetch('https://icanhazdadjoke.com/', options)
-        .then(function (res) { return res.json(); })
-        .then(function (data) {
-        printJoke(data);
-        currentJoke = { joke: data.joke, score: 0, date: '' };
+    currentJokes = [];
+    var dadApi = fetch('https://icanhazdadjoke.com/', options);
+    var chuckApi = fetch('https://api.chucknorris.io/jokes/random');
+    Promise.all([dadApi, chuckApi])
+        .then(function (_a) {
+        var dadRes = _a[0], chuckRes = _a[1];
+        return Promise.all([dadRes.json(), chuckRes.json()]);
+    })
+        .then(function (_a) {
+        var dadData = _a[0], chuckData = _a[1];
+        dadJoke = { joke: dadData.joke };
+        chuckJoke = { joke: chuckData.value };
+        currentJokes.push(dadJoke);
+        currentJokes.push(chuckJoke);
+        printJoke(currentJokes);
     });
-    console.log(reportAcudits);
 }
-function printJoke(txt) {
-    var jokesContainer = document.querySelector('.jokes-container');
+function printJoke(jokeArr) {
+    var jokesContainer = document.querySelector('.jokes-container'); // looks for jokes-container in html
+    var rand = Math.random() < 0.5 ? 0 : 1; //generates random n between 0-1, if n < 0.5 ---- n = 0, else n = 1
+    console.log(rand);
     if (!jokesContainer) {
         console.error('jokesContainer is not found');
         return;
     }
-    var print = jokesContainer.querySelector('h5');
-    var jokeObj = { joke: '', score: 0, date: '' };
-    if (print) {
-        print.textContent = txt.joke;
-        jokeObj.joke = txt.joke;
+    var print = jokesContainer.querySelector('h5'); // looks for h5 in html
+    var jokeObj = { joke: '', score: 0, date: '' }; // create new obj
+    if (print) { // if h5 exists
+        print.textContent = jokeArr[rand].joke;
+        jokeObj.joke = jokeArr[rand].joke;
         reportAcudits.push(jokeObj);
     }
-    else {
+    else { // if h5 does not exist
         var h5 = document.createElement('h5');
-        h5.textContent = txt.joke;
-        jokeObj.joke = txt.joke;
+        h5.textContent = jokeArr[rand].joke;
+        jokeObj.joke = jokeArr[rand].joke;
         reportAcudits.push(jokeObj);
         jokesContainer.appendChild(h5);
     }
+    console.log(jokeArr);
 }
 function giveScore(toGive) {
-    if (!currentJoke)
-        console.error('No joke available');
-    var jokeObj = reportAcudits.find(function (j) { return j.joke == currentJoke.joke; });
-    if (jokeObj) {
-        jokeObj.score = toGive;
-        jokeObj.date = new Date().toISOString();
+    if (!dadJoke)
+        console.error('No dad joke available');
+    if (!chuckJoke)
+        console.error('No Chuck joke available');
+    var dadJokeObj = reportAcudits.find(function (j) { return j.joke == dadJoke.joke; }); // put the '!' so typescript doesnt give could be null
+    var chuckJokeObj = reportAcudits.find(function (j) { return j.joke == chuckJoke.joke; });
+    if (dadJokeObj) { // if obj exists add score and date
+        dadJokeObj.score = toGive;
+        dadJokeObj.date = new Date().toISOString();
+    }
+    if (chuckJokeObj) { // if obj exists add score and date
+        chuckJokeObj.score = toGive;
+        chuckJokeObj.date = new Date().toISOString();
     }
     else
         console.error('Joke not found');
+    console.log('reportAcudits');
     console.log(reportAcudits);
 }
 function getWeather() {
@@ -74,4 +96,5 @@ function printWeather(txt) {
     }
 }
 getJoke();
+//getChuck();
 getWeather();

@@ -1,20 +1,30 @@
 const options = { headers: { 'Accept': 'application/json' } }
 
 let reportAcudits: { joke: string; score: number; date: string }[] = [] //joke:'', score:n, date:''
-let currentJoke: { joke: string; score: number; date: string } | null = null;
+let dadJoke: { joke: string } | null = null;
+let chuckJoke: { joke: string } | null = null;
+let currentJokes: { joke: string }[] = [];
 
 function getJoke(): void {
-    fetch('https://icanhazdadjoke.com/', options)
-        .then((res) => res.json())
-        .then((data) => {
-            printJoke(data)
-            currentJoke = { joke: data.joke, score: 0, date: '' }
+    currentJokes = [];
+    const dadApi = fetch('https://icanhazdadjoke.com/', options);
+    const chuckApi = fetch('https://api.chucknorris.io/jokes/random');
+
+    Promise.all([dadApi, chuckApi])
+        .then(([dadRes, chuckRes]) => Promise.all([dadRes.json(), chuckRes.json()]))
+        .then(([dadData, chuckData]) => {
+            dadJoke = { joke: dadData.joke }
+            chuckJoke = { joke: chuckData.value }
+            currentJokes.push(dadJoke)
+            currentJokes.push(chuckJoke)
+            printJoke(currentJokes)
         });
-    console.log(reportAcudits);
 }
 
-function printJoke(txt: { joke: string }): void {
+function printJoke(jokeArr: { joke: string }[]): void {
     let jokesContainer = document.querySelector('.jokes-container'); // looks for jokes-container in html
+    let rand = Math.random() < 0.5 ? 0 : 1;//generates random n between 0-1, if n < 0.5 ---- n = 0, else n = 1
+    console.log(rand);
 
     if (!jokesContainer) {
         console.error('jokesContainer is not found');
@@ -24,30 +34,38 @@ function printJoke(txt: { joke: string }): void {
     let jokeObj = { joke: '', score: 0, date: '' }; // create new obj
 
     if (print) { // if h5 exists
-        print.textContent = txt.joke; 
-        jokeObj.joke = txt.joke;
+        print.textContent = jokeArr[rand].joke;
+        jokeObj.joke = jokeArr[rand].joke;
         reportAcudits.push(jokeObj);
     }
     else { // if h5 does not exist
         const h5 = document.createElement('h5');
-        h5.textContent = txt.joke;
-        jokeObj.joke = txt.joke;
+        h5.textContent = jokeArr[rand].joke;
+        jokeObj.joke = jokeArr[rand].joke;
         reportAcudits.push(jokeObj);
         jokesContainer.appendChild(h5);
     }
+    console.log(jokeArr);
 }
 
 function giveScore(toGive: number): void {
-    if (!currentJoke) console.error('No joke available');
+    if (!dadJoke) console.error('No dad joke available');
+    if (!chuckJoke) console.error('No Chuck joke available');
 
-    let jokeObj = reportAcudits.find(j => j.joke == currentJoke!.joke); // put the '!' so typescript doesnt give could be null
+    let dadJokeObj = reportAcudits.find(j => j.joke == dadJoke!.joke); // put the '!' so typescript doesnt give could be null
+    let chuckJokeObj = reportAcudits.find(j => j.joke == chuckJoke!.joke);
 
-    if (jokeObj) {// if obj exists add score and date
-        jokeObj.score = toGive;
-        jokeObj.date = new Date().toISOString();
+    if (dadJokeObj) {// if obj exists add score and date
+        dadJokeObj.score = toGive;
+        dadJokeObj.date = new Date().toISOString();
+    }
+    if (chuckJokeObj) {// if obj exists add score and date
+        chuckJokeObj.score = toGive;
+        chuckJokeObj.date = new Date().toISOString();
     }
     else console.error('Joke not found');
 
+    console.log('reportAcudits')
     console.log(reportAcudits);
 }
 
@@ -88,5 +106,6 @@ function printWeather(txt: { hourly: { time: string[]; temperature_2m: number[] 
 }
 
 getJoke();
+//getChuck();
 getWeather();
 
