@@ -19,6 +19,8 @@ function getJoke(): void {
             currentJokes.push(chuckJoke)
             printJoke(currentJokes)
         });
+
+    changeBlob();
 }
 
 function printJoke(jokeArr: { joke: string }[]): void {
@@ -101,8 +103,12 @@ function printWeather(txt: { hourly: { time: string[]; temperature_2m: number[] 
         h6.textContent = `Temperature: ${temp}°C`;
         tempContainer.appendChild(h6);
     }
+}
 
+function changeBlob(): string {
+    let rand = Math.random() * 10;
 
+    return `./blobs/blob${rand}-2.png`;
 }
 
 getJoke();

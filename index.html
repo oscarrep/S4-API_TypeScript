@@ -18,11 +18,62 @@
             text-shadow: 2px 2px #2c2c2c;
         }
 
+        .text-shadowB {
+            text-shadow: 2px 2px #005e9c;
+        }
+
         .blob {
-            background-image: url('./blobs/blob9-2.png');
-            outline: 5px white;
-            height: 45%;
-            width: 45%;
+            height: auto;
+            width: 50vw;
+            display: block;
+            max-width: 100%;
+            z-index: -1;
+        }
+
+        .jokes-container {
+            word-wrap: break-word;
+            margin: 0 auto;
+            font-size: clamp(1rem, 2.5vw, 1.5rem);
+            text-align: center;
+            max-width: 90%;
+        }
+
+
+        @media (min-width: 1200px) {
+            .blob {
+                width: 35vw;
+                top: -10%;
+            }
+        }
+
+        @media (max-width: 1199px) and (min-width: 768px) {
+            .blob {
+                width: 45vw;
+                top: -12%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .jokes-container {
+                font-size: clamp(0.9rem, 4vw, 1.2rem);
+            }
+
+            .blob {
+                width: 70vw;
+                top: -5%;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .blob {
+                top: -10%;
+                width: 80vw;
+            }
+
+            .temp-container {
+                font-size: clamp(0.8rem, 3vw, 1.2rem);
+
+            }
         }
     </style>
 </head>
@@ -30,10 +81,10 @@
 <body class="bg-image overflow-hidden" style="background-color: black;">
     <div class="container text-center mt-4">
         <div class="row align-items-center justify-content-center d-flex">
-            <div class="blob justify-content-center">
+            <div class="col-10 col-md-6 justify-content-center position-relative z-2">
                 <div class="temp-container text-white text-shadow mb-4 my-5"></div> <!-- TEMPERATURE -->
-                <div class="p-5 "> <!-- JOKES -->
-                    <div class="jokes-container m-4"></div>
+                <div class="p-4 mt-4"> <!-- JOKES -->
+                    <div class="jokes-container text-white text-shadowB m-4"></div>
                     <div>
                         <h6>Give it a score!</h6>
                         <button type="button" onclick="giveScore(1)" class="m-4 btn text-white"
@@ -43,10 +94,12 @@
                         <button type="button" onclick="giveScore(3)" class="m-4 btn text-white"
                             style="background-color: rgb(46, 111, 231);">3</button>
                     </div>
-                    <button type="button" class="m-4 btn btn-primary w-25" onclick="getJoke()"
-                        style="background-color:blueviolet; border-color: blueviolet;"> Another joke </button>
+                    <button type="button" class="m-4 btn btn-primary text-shadowB w-50" onclick="getJoke()"
+                        style="background-color:rgb(43, 226, 202); border-color: rgb(70, 208, 226);"> Another joke
+                    </button>
                 </div>
             </div>
+            <img src="./blobs/blob1-2.png" class="blob img-fluid position-absolute" style="top:10%;"> <!-- BLOB -->
         </div>
     </div>
 
