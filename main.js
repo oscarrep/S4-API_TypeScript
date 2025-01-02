@@ -3,6 +3,21 @@ var reportAcudits = []; //joke:'', score:n, date:''
 var dadJoke = null;
 var chuckJoke = null;
 var currentJokes = [];
+var blobImages = [
+    "./blobs/blob0.png",
+    "./blobs/blob1.png",
+    "./blobs/blob2.png",
+    "./blobs/blob3.png",
+    "./blobs/blob4.png",
+    "./blobs/blob5.png",
+    "./blobs/blob6.png",
+    "./blobs/blob7.png",
+    "./blobs/blob8.png"
+];
+function randomBlob() {
+    var random = Math.floor(Math.random() * blobImages.length);
+    return blobImages[random];
+}
 function getJoke() {
     currentJokes = [];
     var dadApi = fetch('https://icanhazdadjoke.com/', options);
@@ -20,6 +35,11 @@ function getJoke() {
         currentJokes.push(chuckJoke);
         printJoke(currentJokes);
     });
+    var image = document.getElementById('blobImage'); // HTMLimgelement tells TS this is an image element, if not there can't .src
+    if (image)
+        image.src = randomBlob();
+    else
+        console.error("Blob image element not found");
 }
 function printJoke(jokeArr) {
     var jokesContainer = document.querySelector('.jokes-container'); // looks for jokes-container in html

@@ -5,6 +5,24 @@ let dadJoke: { joke: string } | null = null;
 let chuckJoke: { joke: string } | null = null;
 let currentJokes: { joke: string }[] = [];
 
+const blobImages = [
+    "./blobs/blob0.png",
+    "./blobs/blob1.png",
+    "./blobs/blob2.png",
+    "./blobs/blob3.png",
+    "./blobs/blob4.png",
+    "./blobs/blob5.png",
+    "./blobs/blob6.png",
+    "./blobs/blob7.png",
+    "./blobs/blob8.png"
+]
+
+function randomBlob(): string {
+    let random = Math.floor(Math.random() * blobImages.length);
+
+    return blobImages[random];
+}
+
 function getJoke(): void {
     currentJokes = [];
     const dadApi = fetch('https://icanhazdadjoke.com/', options);
@@ -20,7 +38,9 @@ function getJoke(): void {
             printJoke(currentJokes)
         });
 
-    changeBlob();
+    const image = document.getElementById('blobImage') as HTMLImageElement; // HTMLimgelement tells TS this is an image element, if not there can't .src
+    if (image) image.src = randomBlob();
+    else console.error("Blob image element not found");
 }
 
 function printJoke(jokeArr: { joke: string }[]): void {
@@ -103,12 +123,6 @@ function printWeather(txt: { hourly: { time: string[]; temperature_2m: number[] 
         h6.textContent = `Temperature: ${temp}°C`;
         tempContainer.appendChild(h6);
     }
-}
-
-function changeBlob(): string {
-    let rand = Math.random() * 10;
-
-    return `./blobs/blob${rand}-2.png`;
 }
 
 getJoke();
