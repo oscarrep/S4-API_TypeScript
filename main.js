@@ -44,7 +44,6 @@ function getJoke() {
 function printJoke(jokeArr) {
     var jokesContainer = document.querySelector('.jokes-container'); // looks for jokes-container in html
     var rand = Math.random() < 0.5 ? 0 : 1; //generates random n between 0-1, if n < 0.5 ---- n = 0, else n = 1
-    console.log(rand);
     if (!jokesContainer) {
         console.error('jokesContainer is not found');
         return;
@@ -63,6 +62,7 @@ function printJoke(jokeArr) {
         reportAcudits.push(jokeObj);
         jokesContainer.appendChild(h5);
     }
+    console.log('Jokes pulled from API:');
     console.log(jokeArr);
 }
 function giveScore(toGive) {
