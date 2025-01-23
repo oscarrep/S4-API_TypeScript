@@ -46,13 +46,11 @@ The application integrates with:
 ## Setup Instructions
 
 1. Clone the repository
+```
+https://github.com/oscarrep/S4-API_TypeScript
+```
 2. Install dependencies
 ```bash
 npm install
-```
-3. Configure API keys in environment variables
-4. Start the development server
-```bash
-npm start
 ```
 
