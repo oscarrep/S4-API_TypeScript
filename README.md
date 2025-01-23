@@ -2,6 +2,8 @@
 
 A web application that displays jokes and weather information to help users start their day with a smile. The application fetches jokes from multiple APIs and allows users to rate them while tracking usage statistics.
 
+![alt text](image.png)
+
 ## Features
 
 ### Core Features (Level 1)
@@ -51,6 +53,6 @@ https://github.com/oscarrep/S4-API_TypeScript
 ```
 2. Install dependencies
 ```bash
-npm install
+npm i
 ```
 
